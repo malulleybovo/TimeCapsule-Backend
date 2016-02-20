@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCapsule-Backend", "TimeCapsule-Backend\TimeCapsule-Backend.csproj", "{469E4987-2728-42CE-BE17-5131B20061B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCapsule-Backend.Tests", "TimeCapsule-Backend.Tests\TimeCapsule-Backend.Tests.csproj", "{FD8278CD-808A-4B19-9317-BB32F05F5286}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{469E4987-2728-42CE-BE17-5131B20061B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{469E4987-2728-42CE-BE17-5131B20061B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{469E4987-2728-42CE-BE17-5131B20061B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{469E4987-2728-42CE-BE17-5131B20061B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD8278CD-808A-4B19-9317-BB32F05F5286}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD8278CD-808A-4B19-9317-BB32F05F5286}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD8278CD-808A-4B19-9317-BB32F05F5286}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD8278CD-808A-4B19-9317-BB32F05F5286}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

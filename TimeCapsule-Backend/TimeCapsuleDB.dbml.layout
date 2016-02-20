@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="TimeCapsuleDB">
+  <DataContextMoniker Name="/TimeCapsuleDBDataContext" />
+  <nestedChildShapes>
+    <classShape Id="d14178b5-70c5-434b-83ab-2652fb038248" absoluteBounds="3.5, 1, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/TimeCapsuleDBDataContext/Image" />
+      <nestedChildShapes>
+        <elementListCompartment Id="81284315-ba7f-4956-8b9f-4003f237b8d1" absoluteBounds="3.515, 1.46, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d7b6f287-c70b-4981-b77e-b17eb805ffa8" absoluteBounds="0.75, 1.5, 2, 1.7708968098958333">
+      <DataClassMoniker Name="/TimeCapsuleDBDataContext/People" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0eb50450-481d-4e38-a13a-af79fa053770" absoluteBounds="0.765, 1.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="2ef7993a-8d53-4881-a0b9-91a08b57e371" absoluteBounds="0.75, 5.125, 2, 2.3478011067708344">
+      <DataClassMoniker Name="/TimeCapsuleDBDataContext/Location" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e03ed415-7f0d-4795-a91d-1c5fd405f36d" absoluteBounds="0.765, 5.585, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 2.38544840494792); (3.5 : 2.38544840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/TimeCapsuleDBDataContext/People/People_Image" />
+      <nodes>
+        <classShapeMoniker Id="d7b6f287-c70b-4981-b77e-b17eb805ffa8" />
+        <classShapeMoniker Id="d14178b5-70c5-434b-83ab-2652fb038248" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 6.29890055338542); (4.5 : 6.29890055338542); (4.5 : 3.73240397135417)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/TimeCapsuleDBDataContext/Location/Location_Image" />
+      <nodes>
+        <classShapeMoniker Id="2ef7993a-8d53-4881-a0b9-91a08b57e371" />
+        <classShapeMoniker Id="d14178b5-70c5-434b-83ab-2652fb038248" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
