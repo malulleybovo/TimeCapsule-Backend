@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.Http;
 using System.IO;
+using Newtonsoft.Json;
 using TimeCapsule_Backend;
 using WebGrease.Css.Extensions;
 
@@ -13,6 +14,10 @@ namespace WebRole1.Controllers
 {
     public class LocationsController : Controller
     {
+        public HttpResponse addLocation()
+        {
+            return null;
+        }
         // GET: Location
         public string get(string name)
         {
@@ -20,9 +25,7 @@ namespace WebRole1.Controllers
             {
                 var locList = db.Locations.Where(l => l.Name == name);
 
-                JavaScriptSerializer ser = new JavaScriptSerializer();
-
-                return ser.Serialize(locList);
+                return JsonConvert.SerializeObject(locList);
             }
             
         }
@@ -34,9 +37,7 @@ namespace WebRole1.Controllers
                 var usedLocations = db.Images.GroupBy(t=>t.Location).Select(s => s.First().Location).ToList();
                 var locList = db.Locations.Where(l => usedLocations.Contains(l.id));
 
-                JavaScriptSerializer ser = new JavaScriptSerializer();
-
-                return ser.Serialize(locList);
+                return JsonConvert.SerializeObject(locList);
             }
         }
 
@@ -48,9 +49,7 @@ namespace WebRole1.Controllers
                 var userImagesLocations = db.Images.Where(i => i.OwnerId == userId).GroupBy(i=>i.Location).Select(i=>i.First().Location).ToList();
                 var userCities = db.Locations.Where(l => userImagesLocations.Contains(l.id)).Select(l=>l.Name);
 
-                JavaScriptSerializer ser = new JavaScriptSerializer();
-
-                return ser.Serialize(userCities);
+                return JsonConvert.SerializeObject(userCities);
             }
         }
 
@@ -61,17 +60,31 @@ namespace WebRole1.Controllers
                 Dictionary<string,int> cityCounts = new Dictionary<string, int>();
                 var locals = db.Locations.ToList();
                 db.Images.GroupBy(t => t.Location).ForEach(ig=>cityCounts.Add(locals.First(p=>p.id==ig.First().Location).Name,ig.Count()));
+                List<cityInfo> info = new List<cityInfo>();
                 foreach (var local in locals)
                 {
                     if (!cityCounts.ContainsKey(local.Name))
                     {
-                        cityCounts.Add(local.Name,0);
+                        info.Add(new cityInfo(local.Name, 0));
+                    }
+                    else
+                    {
+                        info.Add(new cityInfo(local.Name,cityCounts[local.Name]));
                     }
                 }
-                JavaScriptSerializer ser = new JavaScriptSerializer();
-
-                return ser.Serialize(cityCounts);
+                return JsonConvert.SerializeObject(info);
             }
         }
+    }
+
+    class cityInfo
+    {
+        public cityInfo(string name, int count)
+        {
+            this.Name = name;
+            this.Count = count;
+        }
+        public string Name { get; set; }
+        public int Count { get; set; }
     }
 }

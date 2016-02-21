@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.Http;
 using System.IO;
+using Newtonsoft.Json;
 using TimeCapsule_Backend;
 
 namespace WebRole1.Controllers
@@ -19,9 +20,7 @@ namespace WebRole1.Controllers
             {
                 var imgList = db.Images.Where(l => l.OwnerId == ownerId);
 
-                JavaScriptSerializer ser = new JavaScriptSerializer();
-
-                return ser.Serialize(imgList);
+                return JsonConvert.SerializeObject(imgList);
             }
 
         }
@@ -31,8 +30,7 @@ namespace WebRole1.Controllers
             using (TimeCapsuleDBDataContext db = new TimeCapsuleDBDataContext())
             {
                 var imgList = db.getImagesForLocation(city);
-                JavaScriptSerializer ser = new JavaScriptSerializer();
-                return ser.Serialize(imgList);
+                return JsonConvert.SerializeObject(imgList);
             }
         }
 
@@ -45,8 +43,7 @@ namespace WebRole1.Controllers
                               where person.Username == username
                               select image;
 
-                JavaScriptSerializer ser = new JavaScriptSerializer();
-                return ser.Serialize(imgList);
+                return JsonConvert.SerializeObject(imgList);
 
             }
         }
