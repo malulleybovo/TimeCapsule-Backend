@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 
 namespace TimeCapsule_Backend.Controllers
 {
@@ -24,6 +25,12 @@ namespace TimeCapsule_Backend.Controllers
         // POST api/values
         public void Post([FromBody]string value)
         {
+            using (TimeCapsuleDBDataContext db = new TimeCapsuleDBDataContext())
+            {
+                JavaScriptSerializer jss = new JavaScriptSerializer();
+                db.Locations.Where(l => l.Name == "bob");
+                jss.Serialize(db.Locations.Where(l => l.Name == "bob"));
+            }
         }
 
         // PUT api/values/5

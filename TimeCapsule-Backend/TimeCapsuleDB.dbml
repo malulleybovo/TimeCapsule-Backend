@@ -2,41 +2,49 @@
   <Connection Mode="WebSettings" ConnectionString="Data Source=timecapsul.database.windows.net;Initial Catalog=timecapsul;User ID=budocf" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="timecapsulConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Image" Member="Images">
     <Type Name="Image">
-      <Column Name="id" Type="System.String" DbType="NVarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="createdAt" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
-      <Column Name="updatedAt" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
-      <Column Name="version" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
-      <Column Name="deleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
       <Column Name="Path" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Title" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="PersonId" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="LocationId" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Association Name="People_Image" Member="People" ThisKey="PersonId" OtherKey="id" Type="People" IsForeignKey="true" />
-      <Association Name="Location_Image" Member="Location" ThisKey="LocationId" OtherKey="id" Type="Location" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.People" Member="Peoples">
-    <Type Name="People">
-      <Column Name="id" Type="System.String" DbType="NVarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="createdAt" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
-      <Column Name="updatedAt" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
-      <Column Name="version" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
-      <Column Name="deleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Association Name="People_Image" Member="Images" ThisKey="id" OtherKey="PersonId" Type="Image" />
+      <Column Name="Month" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="Year" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateUploaded" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="OwnerId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Location" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Location" Member="Locations">
     <Type Name="Location">
-      <Column Name="id" Type="System.String" DbType="NVarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="createdAt" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
-      <Column Name="updatedAt" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
-      <Column Name="version" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
-      <Column Name="deleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Latitude" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Longitude" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="Location_Image" Member="Images" ThisKey="id" OtherKey="LocationId" Type="Image" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Latitude" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Longitude" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Person" Member="Persons">
+    <Type Name="Person">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Deleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.getImagesForLocation" Method="getImagesForLocation">
+    <Parameter Name="cityName" Type="System.String" DbType="NVarChar(MAX)" />
+    <ElementType Name="getImagesForLocationResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Path" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Month" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="Year" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateUploaded" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="OwnerId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Location" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>
