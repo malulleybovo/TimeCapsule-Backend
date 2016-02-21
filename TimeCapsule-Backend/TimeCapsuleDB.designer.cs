@@ -33,12 +33,12 @@ namespace TimeCapsule_Backend
     partial void InsertImage(Image instance);
     partial void UpdateImage(Image instance);
     partial void DeleteImage(Image instance);
-    partial void InsertPeople(People instance);
-    partial void UpdatePeople(People instance);
-    partial void DeletePeople(People instance);
     partial void InsertLocation(Location instance);
     partial void UpdateLocation(Location instance);
     partial void DeleteLocation(Location instance);
+    partial void InsertPerson(Person instance);
+    partial void UpdatePerson(Person instance);
+    partial void DeletePerson(Person instance);
     #endregion
 		
 		public TimeCapsuleDBDataContext() : 
@@ -79,20 +79,27 @@ namespace TimeCapsule_Backend
 			}
 		}
 		
-		public System.Data.Linq.Table<People> Peoples
-		{
-			get
-			{
-				return this.GetTable<People>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Location> Locations
 		{
 			get
 			{
 				return this.GetTable<Location>();
 			}
+		}
+		
+		public System.Data.Linq.Table<Person> Persons
+		{
+			get
+			{
+				return this.GetTable<Person>();
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.getImagesForLocation")]
+		public ISingleResult<getImagesForLocationResult> getImagesForLocation([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string cityName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), cityName);
+			return ((ISingleResult<getImagesForLocationResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -102,184 +109,74 @@ namespace TimeCapsule_Backend
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private string _id;
-		
-		private System.DateTimeOffset _createdAt;
-		
-		private System.Nullable<System.DateTimeOffset> _updatedAt;
-		
-		private System.Data.Linq.Binary _version;
-		
-		private System.Nullable<bool> _deleted;
-		
-		private string _Path;
+		private int _Id;
 		
 		private string _Title;
 		
 		private string _Description;
 		
-		private string _PersonId;
+		private string _Path;
 		
-		private string _LocationId;
+		private System.Nullable<short> _Month;
 		
-		private EntityRef<People> _People;
+		private System.Nullable<int> _Year;
 		
-		private EntityRef<Location> _Location;
+		private System.Nullable<System.DateTime> _DateUploaded;
+		
+		private System.Nullable<int> _OwnerId;
+		
+		private System.Nullable<int> _Location;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnidChanging(string value);
-    partial void OnidChanged();
-    partial void OncreatedAtChanging(System.DateTimeOffset value);
-    partial void OncreatedAtChanged();
-    partial void OnupdatedAtChanging(System.Nullable<System.DateTimeOffset> value);
-    partial void OnupdatedAtChanged();
-    partial void OnversionChanging(System.Data.Linq.Binary value);
-    partial void OnversionChanged();
-    partial void OndeletedChanging(System.Nullable<bool> value);
-    partial void OndeletedChanged();
-    partial void OnPathChanging(string value);
-    partial void OnPathChanged();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
     partial void OnTitleChanging(string value);
     partial void OnTitleChanged();
     partial void OnDescriptionChanging(string value);
     partial void OnDescriptionChanged();
-    partial void OnPersonIdChanging(string value);
-    partial void OnPersonIdChanged();
-    partial void OnLocationIdChanging(string value);
-    partial void OnLocationIdChanged();
+    partial void OnPathChanging(string value);
+    partial void OnPathChanged();
+    partial void OnMonthChanging(System.Nullable<short> value);
+    partial void OnMonthChanged();
+    partial void OnYearChanging(System.Nullable<int> value);
+    partial void OnYearChanged();
+    partial void OnDateUploadedChanging(System.Nullable<System.DateTime> value);
+    partial void OnDateUploadedChanged();
+    partial void OnOwnerIdChanging(System.Nullable<int> value);
+    partial void OnOwnerIdChanged();
+    partial void OnLocationChanging(System.Nullable<int> value);
+    partial void OnLocationChanged();
     #endregion
 		
 		public Image()
 		{
-			this._People = default(EntityRef<People>);
-			this._Location = default(EntityRef<Location>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(255) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
-		public string id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
 		{
 			get
 			{
-				return this._id;
+				return this._Id;
 			}
 			set
 			{
-				if ((this._id != value))
+				if ((this._Id != value))
 				{
-					this.OnidChanging(value);
+					this.OnIdChanging(value);
 					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_createdAt", DbType="DateTimeOffset NOT NULL", UpdateCheck=UpdateCheck.Never)]
-		public System.DateTimeOffset createdAt
-		{
-			get
-			{
-				return this._createdAt;
-			}
-			set
-			{
-				if ((this._createdAt != value))
-				{
-					this.OncreatedAtChanging(value);
-					this.SendPropertyChanging();
-					this._createdAt = value;
-					this.SendPropertyChanged("createdAt");
-					this.OncreatedAtChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_updatedAt", DbType="DateTimeOffset", UpdateCheck=UpdateCheck.Never)]
-		public System.Nullable<System.DateTimeOffset> updatedAt
-		{
-			get
-			{
-				return this._updatedAt;
-			}
-			set
-			{
-				if ((this._updatedAt != value))
-				{
-					this.OnupdatedAtChanging(value);
-					this.SendPropertyChanging();
-					this._updatedAt = value;
-					this.SendPropertyChanged("updatedAt");
-					this.OnupdatedAtChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_version", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
-		public System.Data.Linq.Binary version
-		{
-			get
-			{
-				return this._version;
-			}
-			set
-			{
-				if ((this._version != value))
-				{
-					this.OnversionChanging(value);
-					this.SendPropertyChanging();
-					this._version = value;
-					this.SendPropertyChanged("version");
-					this.OnversionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_deleted", DbType="Bit", UpdateCheck=UpdateCheck.Never)]
-		public System.Nullable<bool> deleted
-		{
-			get
-			{
-				return this._deleted;
-			}
-			set
-			{
-				if ((this._deleted != value))
-				{
-					this.OndeletedChanging(value);
-					this.SendPropertyChanging();
-					this._deleted = value;
-					this.SendPropertyChanged("deleted");
-					this.OndeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Path", DbType="NVarChar(MAX)", UpdateCheck=UpdateCheck.Never)]
-		public string Path
-		{
-			get
-			{
-				return this._Path;
-			}
-			set
-			{
-				if ((this._Path != value))
-				{
-					this.OnPathChanging(value);
-					this.SendPropertyChanging();
-					this._Path = value;
-					this.SendPropertyChanged("Path");
-					this.OnPathChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(MAX)", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(150)")]
 		public string Title
 		{
 			get
@@ -299,7 +196,7 @@ namespace TimeCapsule_Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX)", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(200)")]
 		public string Description
 		{
 			get
@@ -319,118 +216,122 @@ namespace TimeCapsule_Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PersonId", DbType="NVarChar(255)", UpdateCheck=UpdateCheck.Never)]
-		public string PersonId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Path", DbType="NVarChar(MAX)")]
+		public string Path
 		{
 			get
 			{
-				return this._PersonId;
+				return this._Path;
 			}
 			set
 			{
-				if ((this._PersonId != value))
+				if ((this._Path != value))
 				{
-					if (this._People.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnPersonIdChanging(value);
+					this.OnPathChanging(value);
 					this.SendPropertyChanging();
-					this._PersonId = value;
-					this.SendPropertyChanged("PersonId");
-					this.OnPersonIdChanged();
+					this._Path = value;
+					this.SendPropertyChanged("Path");
+					this.OnPathChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LocationId", DbType="NVarChar(255)", UpdateCheck=UpdateCheck.Never)]
-		public string LocationId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Month", DbType="SmallInt")]
+		public System.Nullable<short> Month
 		{
 			get
 			{
-				return this._LocationId;
+				return this._Month;
 			}
 			set
 			{
-				if ((this._LocationId != value))
+				if ((this._Month != value))
 				{
-					if (this._Location.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnLocationIdChanging(value);
+					this.OnMonthChanging(value);
 					this.SendPropertyChanging();
-					this._LocationId = value;
-					this.SendPropertyChanged("LocationId");
-					this.OnLocationIdChanged();
+					this._Month = value;
+					this.SendPropertyChanged("Month");
+					this.OnMonthChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="People_Image", Storage="_People", ThisKey="PersonId", OtherKey="id", IsForeignKey=true)]
-		public People People
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Year", DbType="Int")]
+		public System.Nullable<int> Year
 		{
 			get
 			{
-				return this._People.Entity;
+				return this._Year;
 			}
 			set
 			{
-				People previousValue = this._People.Entity;
-				if (((previousValue != value) 
-							|| (this._People.HasLoadedOrAssignedValue == false)))
+				if ((this._Year != value))
 				{
+					this.OnYearChanging(value);
 					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._People.Entity = null;
-						previousValue.Images.Remove(this);
-					}
-					this._People.Entity = value;
-					if ((value != null))
-					{
-						value.Images.Add(this);
-						this._PersonId = value.id;
-					}
-					else
-					{
-						this._PersonId = default(string);
-					}
-					this.SendPropertyChanged("People");
+					this._Year = value;
+					this.SendPropertyChanged("Year");
+					this.OnYearChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Location_Image", Storage="_Location", ThisKey="LocationId", OtherKey="id", IsForeignKey=true)]
-		public Location Location
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateUploaded", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateUploaded
 		{
 			get
 			{
-				return this._Location.Entity;
+				return this._DateUploaded;
 			}
 			set
 			{
-				Location previousValue = this._Location.Entity;
-				if (((previousValue != value) 
-							|| (this._Location.HasLoadedOrAssignedValue == false)))
+				if ((this._DateUploaded != value))
 				{
+					this.OnDateUploadedChanging(value);
 					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Location.Entity = null;
-						previousValue.Images.Remove(this);
-					}
-					this._Location.Entity = value;
-					if ((value != null))
-					{
-						value.Images.Add(this);
-						this._LocationId = value.id;
-					}
-					else
-					{
-						this._LocationId = default(string);
-					}
+					this._DateUploaded = value;
+					this.SendPropertyChanged("DateUploaded");
+					this.OnDateUploadedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OwnerId", DbType="Int")]
+		public System.Nullable<int> OwnerId
+		{
+			get
+			{
+				return this._OwnerId;
+			}
+			set
+			{
+				if ((this._OwnerId != value))
+				{
+					this.OnOwnerIdChanging(value);
+					this.SendPropertyChanging();
+					this._OwnerId = value;
+					this.SendPropertyChanged("OwnerId");
+					this.OnOwnerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Location", DbType="Int")]
+		public System.Nullable<int> Location
+		{
+			get
+			{
+				return this._Location;
+			}
+			set
+			{
+				if ((this._Location != value))
+				{
+					this.OnLocationChanging(value);
+					this.SendPropertyChanging();
+					this._Location = value;
 					this.SendPropertyChanged("Location");
+					this.OnLocationChanged();
 				}
 			}
 		}
@@ -453,192 +354,6 @@ namespace TimeCapsule_Backend
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.People")]
-	public partial class People : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _id;
-		
-		private System.DateTimeOffset _createdAt;
-		
-		private System.Nullable<System.DateTimeOffset> _updatedAt;
-		
-		private System.Data.Linq.Binary _version;
-		
-		private System.Nullable<bool> _deleted;
-		
-		private EntitySet<Image> _Images;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(string value);
-    partial void OnidChanged();
-    partial void OncreatedAtChanging(System.DateTimeOffset value);
-    partial void OncreatedAtChanged();
-    partial void OnupdatedAtChanging(System.Nullable<System.DateTimeOffset> value);
-    partial void OnupdatedAtChanged();
-    partial void OnversionChanging(System.Data.Linq.Binary value);
-    partial void OnversionChanged();
-    partial void OndeletedChanging(System.Nullable<bool> value);
-    partial void OndeletedChanged();
-    #endregion
-		
-		public People()
-		{
-			this._Images = new EntitySet<Image>(new Action<Image>(this.attach_Images), new Action<Image>(this.detach_Images));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(255) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
-		public string id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_createdAt", DbType="DateTimeOffset NOT NULL", UpdateCheck=UpdateCheck.Never)]
-		public System.DateTimeOffset createdAt
-		{
-			get
-			{
-				return this._createdAt;
-			}
-			set
-			{
-				if ((this._createdAt != value))
-				{
-					this.OncreatedAtChanging(value);
-					this.SendPropertyChanging();
-					this._createdAt = value;
-					this.SendPropertyChanged("createdAt");
-					this.OncreatedAtChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_updatedAt", DbType="DateTimeOffset", UpdateCheck=UpdateCheck.Never)]
-		public System.Nullable<System.DateTimeOffset> updatedAt
-		{
-			get
-			{
-				return this._updatedAt;
-			}
-			set
-			{
-				if ((this._updatedAt != value))
-				{
-					this.OnupdatedAtChanging(value);
-					this.SendPropertyChanging();
-					this._updatedAt = value;
-					this.SendPropertyChanged("updatedAt");
-					this.OnupdatedAtChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_version", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
-		public System.Data.Linq.Binary version
-		{
-			get
-			{
-				return this._version;
-			}
-			set
-			{
-				if ((this._version != value))
-				{
-					this.OnversionChanging(value);
-					this.SendPropertyChanging();
-					this._version = value;
-					this.SendPropertyChanged("version");
-					this.OnversionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_deleted", DbType="Bit", UpdateCheck=UpdateCheck.Never)]
-		public System.Nullable<bool> deleted
-		{
-			get
-			{
-				return this._deleted;
-			}
-			set
-			{
-				if ((this._deleted != value))
-				{
-					this.OndeletedChanging(value);
-					this.SendPropertyChanging();
-					this._deleted = value;
-					this.SendPropertyChanged("deleted");
-					this.OndeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="People_Image", Storage="_Images", ThisKey="id", OtherKey="PersonId")]
-		public EntitySet<Image> Images
-		{
-			get
-			{
-				return this._Images;
-			}
-			set
-			{
-				this._Images.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Images(Image entity)
-		{
-			this.SendPropertyChanging();
-			entity.People = this;
-		}
-		
-		private void detach_Images(Image entity)
-		{
-			this.SendPropertyChanging();
-			entity.People = null;
 		}
 	}
 	
@@ -648,15 +363,7 @@ namespace TimeCapsule_Backend
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private string _id;
-		
-		private System.DateTimeOffset _createdAt;
-		
-		private System.Nullable<System.DateTimeOffset> _updatedAt;
-		
-		private System.Data.Linq.Binary _version;
-		
-		private System.Nullable<bool> _deleted;
+		private int _id;
 		
 		private string _Name;
 		
@@ -664,22 +371,12 @@ namespace TimeCapsule_Backend
 		
 		private string _Longitude;
 		
-		private EntitySet<Image> _Images;
-		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnidChanging(string value);
+    partial void OnidChanging(int value);
     partial void OnidChanged();
-    partial void OncreatedAtChanging(System.DateTimeOffset value);
-    partial void OncreatedAtChanged();
-    partial void OnupdatedAtChanging(System.Nullable<System.DateTimeOffset> value);
-    partial void OnupdatedAtChanged();
-    partial void OnversionChanging(System.Data.Linq.Binary value);
-    partial void OnversionChanged();
-    partial void OndeletedChanging(System.Nullable<bool> value);
-    partial void OndeletedChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
     partial void OnLatitudeChanging(string value);
@@ -690,12 +387,11 @@ namespace TimeCapsule_Backend
 		
 		public Location()
 		{
-			this._Images = new EntitySet<Image>(new Action<Image>(this.attach_Images), new Action<Image>(this.detach_Images));
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="NVarChar(255) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
-		public string id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
 		{
 			get
 			{
@@ -714,87 +410,7 @@ namespace TimeCapsule_Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_createdAt", DbType="DateTimeOffset NOT NULL", UpdateCheck=UpdateCheck.Never)]
-		public System.DateTimeOffset createdAt
-		{
-			get
-			{
-				return this._createdAt;
-			}
-			set
-			{
-				if ((this._createdAt != value))
-				{
-					this.OncreatedAtChanging(value);
-					this.SendPropertyChanging();
-					this._createdAt = value;
-					this.SendPropertyChanged("createdAt");
-					this.OncreatedAtChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_updatedAt", DbType="DateTimeOffset", UpdateCheck=UpdateCheck.Never)]
-		public System.Nullable<System.DateTimeOffset> updatedAt
-		{
-			get
-			{
-				return this._updatedAt;
-			}
-			set
-			{
-				if ((this._updatedAt != value))
-				{
-					this.OnupdatedAtChanging(value);
-					this.SendPropertyChanging();
-					this._updatedAt = value;
-					this.SendPropertyChanged("updatedAt");
-					this.OnupdatedAtChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_version", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
-		public System.Data.Linq.Binary version
-		{
-			get
-			{
-				return this._version;
-			}
-			set
-			{
-				if ((this._version != value))
-				{
-					this.OnversionChanging(value);
-					this.SendPropertyChanging();
-					this._version = value;
-					this.SendPropertyChanged("version");
-					this.OnversionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_deleted", DbType="Bit", UpdateCheck=UpdateCheck.Never)]
-		public System.Nullable<bool> deleted
-		{
-			get
-			{
-				return this._deleted;
-			}
-			set
-			{
-				if ((this._deleted != value))
-				{
-					this.OndeletedChanging(value);
-					this.SendPropertyChanging();
-					this._deleted = value;
-					this.SendPropertyChanged("deleted");
-					this.OndeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(MAX)", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50)")]
 		public string Name
 		{
 			get
@@ -814,7 +430,7 @@ namespace TimeCapsule_Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Latitude", DbType="NVarChar(MAX)", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Latitude", DbType="NVarChar(50)")]
 		public string Latitude
 		{
 			get
@@ -834,7 +450,7 @@ namespace TimeCapsule_Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Longitude", DbType="NVarChar(MAX)", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Longitude", DbType="NVarChar(50)")]
 		public string Longitude
 		{
 			get
@@ -851,19 +467,6 @@ namespace TimeCapsule_Backend
 					this.SendPropertyChanged("Longitude");
 					this.OnLongitudeChanged();
 				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Location_Image", Storage="_Images", ThisKey="id", OtherKey="LocationId")]
-		public EntitySet<Image> Images
-		{
-			get
-			{
-				return this._Images;
-			}
-			set
-			{
-				this._Images.Assign(value);
 			}
 		}
 		
@@ -886,17 +489,405 @@ namespace TimeCapsule_Backend
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Person")]
+	public partial class Person : INotifyPropertyChanging, INotifyPropertyChanged
+	{
 		
-		private void attach_Images(Image entity)
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private string _FirstName;
+		
+		private string _LastName;
+		
+		private string _Username;
+		
+		private string _Email;
+		
+		private string _Password;
+		
+		private System.Nullable<System.DateTime> _CreationDate;
+		
+		private System.Nullable<bool> _Deleted;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnFirstNameChanging(string value);
+    partial void OnFirstNameChanged();
+    partial void OnLastNameChanging(string value);
+    partial void OnLastNameChanged();
+    partial void OnUsernameChanging(string value);
+    partial void OnUsernameChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnPasswordChanging(string value);
+    partial void OnPasswordChanged();
+    partial void OnCreationDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnCreationDateChanged();
+    partial void OnDeletedChanging(System.Nullable<bool> value);
+    partial void OnDeletedChanged();
+    #endregion
+		
+		public Person()
 		{
-			this.SendPropertyChanging();
-			entity.Location = this;
+			OnCreated();
 		}
 		
-		private void detach_Images(Image entity)
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
 		{
-			this.SendPropertyChanging();
-			entity.Location = null;
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstName", DbType="NVarChar(50)")]
+		public string FirstName
+		{
+			get
+			{
+				return this._FirstName;
+			}
+			set
+			{
+				if ((this._FirstName != value))
+				{
+					this.OnFirstNameChanging(value);
+					this.SendPropertyChanging();
+					this._FirstName = value;
+					this.SendPropertyChanged("FirstName");
+					this.OnFirstNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastName", DbType="NVarChar(50)")]
+		public string LastName
+		{
+			get
+			{
+				return this._LastName;
+			}
+			set
+			{
+				if ((this._LastName != value))
+				{
+					this.OnLastNameChanging(value);
+					this.SendPropertyChanging();
+					this._LastName = value;
+					this.SendPropertyChanged("LastName");
+					this.OnLastNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Username", DbType="NVarChar(15)")]
+		public string Username
+		{
+			get
+			{
+				return this._Username;
+			}
+			set
+			{
+				if ((this._Username != value))
+				{
+					this.OnUsernameChanging(value);
+					this.SendPropertyChanging();
+					this._Username = value;
+					this.SendPropertyChanged("Username");
+					this.OnUsernameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(150)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(255)")]
+		public string Password
+		{
+			get
+			{
+				return this._Password;
+			}
+			set
+			{
+				if ((this._Password != value))
+				{
+					this.OnPasswordChanging(value);
+					this.SendPropertyChanging();
+					this._Password = value;
+					this.SendPropertyChanged("Password");
+					this.OnPasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreationDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> CreationDate
+		{
+			get
+			{
+				return this._CreationDate;
+			}
+			set
+			{
+				if ((this._CreationDate != value))
+				{
+					this.OnCreationDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreationDate = value;
+					this.SendPropertyChanged("CreationDate");
+					this.OnCreationDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Deleted", DbType="Bit")]
+		public System.Nullable<bool> Deleted
+		{
+			get
+			{
+				return this._Deleted;
+			}
+			set
+			{
+				if ((this._Deleted != value))
+				{
+					this.OnDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._Deleted = value;
+					this.SendPropertyChanged("Deleted");
+					this.OnDeletedChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	public partial class getImagesForLocationResult
+	{
+		
+		private int _Id;
+		
+		private string _Title;
+		
+		private string _Description;
+		
+		private string _Path;
+		
+		private System.Nullable<short> _Month;
+		
+		private System.Nullable<int> _Year;
+		
+		private System.Nullable<System.DateTime> _DateUploaded;
+		
+		private System.Nullable<int> _OwnerId;
+		
+		private System.Nullable<int> _Location;
+		
+		public getImagesForLocationResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL")]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this._Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(150)")]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this._Title = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(200)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this._Description = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Path", DbType="NVarChar(MAX)")]
+		public string Path
+		{
+			get
+			{
+				return this._Path;
+			}
+			set
+			{
+				if ((this._Path != value))
+				{
+					this._Path = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Month", DbType="SmallInt")]
+		public System.Nullable<short> Month
+		{
+			get
+			{
+				return this._Month;
+			}
+			set
+			{
+				if ((this._Month != value))
+				{
+					this._Month = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Year", DbType="Int")]
+		public System.Nullable<int> Year
+		{
+			get
+			{
+				return this._Year;
+			}
+			set
+			{
+				if ((this._Year != value))
+				{
+					this._Year = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateUploaded", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DateUploaded
+		{
+			get
+			{
+				return this._DateUploaded;
+			}
+			set
+			{
+				if ((this._DateUploaded != value))
+				{
+					this._DateUploaded = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OwnerId", DbType="Int")]
+		public System.Nullable<int> OwnerId
+		{
+			get
+			{
+				return this._OwnerId;
+			}
+			set
+			{
+				if ((this._OwnerId != value))
+				{
+					this._OwnerId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Location", DbType="Int")]
+		public System.Nullable<int> Location
+		{
+			get
+			{
+				return this._Location;
+			}
+			set
+			{
+				if ((this._Location != value))
+				{
+					this._Location = value;
+				}
+			}
 		}
 	}
 }
